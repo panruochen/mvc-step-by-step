@@ -11,11 +11,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Date;
+import java.util.HashMap;
 
-public class HelloController implements Controller {
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import springapp.service.ProductManager;
+
+public class InventoryController implements Controller {
 
     protected final Log logger = LogFactory.getLog(getClass());
+	private ProductManager productManager;
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,7 +30,14 @@ public class HelloController implements Controller {
         String now = (new Date()).toString();
         logger.info("Returning hello view with " + now);
 
-        return new ModelAndView("hello", "now", now);
+        Map<String, Object> myModel = new HashMap<String, Object>();
+        myModel.put("now", now);
+        myModel.put("products", this.productManager.getProducts());
+
+        return new ModelAndView("hello", "model", myModel);
     }
 
+    public void setProductManager(ProductManager productManager) {
+        this.productManager = productManager;
+    }
 }
