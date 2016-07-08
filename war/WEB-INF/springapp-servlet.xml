@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <!-- the application context definition for the springapp DispatcherServlet -->
+<!-- the application context definition for the springapp DispatcherServlet -->
 
     <bean id="productManager" class="springapp.service.SimpleProductManager">
         <property name="products">
@@ -37,6 +37,18 @@
     </bean>
 
     <bean name="/hello.htm" class="springapp.web.InventoryController">
+        <property name="productManager" ref="productManager"/>
+    </bean>
+
+    <bean name="/priceincrease.htm" class="springapp.web.PriceIncreaseFormController">
+        <property name="sessionForm" value="true"/>
+        <property name="commandName" value="priceIncrease"/>
+        <property name="commandClass" value="springapp.service.PriceIncrease"/>
+        <property name="validator">
+            <bean class="springapp.service.PriceIncreaseValidator"/>
+        </property>
+        <property name="formView" value="priceincrease"/>
+        <property name="successView" value="hello.htm"/>
         <property name="productManager" ref="productManager"/>
     </bean>
 
