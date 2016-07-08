@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import springapp.domain.Product;
+import springapp.repository.InMemoryProductDao;
+import springapp.repository.ProductDao;
 
 import junit.framework.TestCase;
 
 public class SimpleProductManagerTests extends TestCase {
 
     private SimpleProductManager productManager;
+
     private List<Product> products;
 
     private static int PRODUCT_COUNT = 2;
@@ -20,7 +23,7 @@ public class SimpleProductManagerTests extends TestCase {
     private static String TABLE_DESCRIPTION = "Table";
     private static Double TABLE_PRICE = new Double(150.10);
 
-	private static int POSITIVE_PRICE_INCREASE = 10;
+    private static int POSITIVE_PRICE_INCREASE = 10;
 
     protected void setUp() throws Exception {
         productManager = new SimpleProductManager();
@@ -37,11 +40,14 @@ public class SimpleProductManagerTests extends TestCase {
         product.setPrice(TABLE_PRICE);
         products.add(product);
 
-        productManager.setProducts(products);
+        ProductDao productDao = new InMemoryProductDao(products);
+        productManager.setProductDao(productDao);
+        //productManager.setProducts(products);
     }
 
     public void testGetProductsWithNoProducts() {
         productManager = new SimpleProductManager();
+        productManager.setProductDao(new InMemoryProductDao(null));
         assertNull(productManager.getProducts());
     }
 
@@ -59,9 +65,10 @@ public class SimpleProductManagerTests extends TestCase {
         assertEquals(TABLE_PRICE, product.getPrice());
     }
 
-	public void testIncreasePriceWithNullListOfProducts() {
+    public void testIncreasePriceWithNullListOfProducts() {
         try {
             productManager = new SimpleProductManager();
+            productManager.setProductDao(new InMemoryProductDao(null));
             productManager.increasePrice(POSITIVE_PRICE_INCREASE);
         }
         catch(NullPointerException ex) {
@@ -72,7 +79,8 @@ public class SimpleProductManagerTests extends TestCase {
     public void testIncreasePriceWithEmptyListOfProducts() {
         try {
             productManager = new SimpleProductManager();
-            productManager.setProducts(new ArrayList<Product>());
+            productManager.setProductDao(new InMemoryProductDao(new ArrayList<Product>()));
+            //productManager.setProducts(new ArrayList<Product>());
             productManager.increasePrice(POSITIVE_PRICE_INCREASE);
         }
         catch(Exception ex) {
@@ -92,4 +100,5 @@ public class SimpleProductManagerTests extends TestCase {
         product = products.get(1);
         assertEquals(expectedTablePriceWithIncrease, product.getPrice());
     }
+
 }
