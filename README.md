@@ -18,42 +18,36 @@ springapp in C:\mvc-step-by-step\springapp  </br>
 In the following part of this README, %TOMCAT% and %SPRINGAPP% refer to the installation directories respectively.
 
 ### Run this example
-1. Conigure Tomcat
+#### 1. Conigure Tomcat
    Add the following two lines into %TOMCAT%\conf\tomcat-users.xml   </br>
 ```
    <role rolename="manager"/>
    <user username="tomcat" password="s3cret" roles="manager"/>
 ```
 
-2. Deploy this Web Application (springapp) to Tomcat
-   </br>
+#### 2. Deploy this Web Application (springapp) to Tomcat
 ```
 ant deploy
 ```
-  </br>
   If your Tomcat is not in the assumed directory, please fix it in %SPRINGAPP%\build.properties
 
-3. Start Database server
-   </br>
+#### 3. Start Database server
 ```
 cd %TOMCAT%\db
 server.bat
 ```
 
-4. Create a database
-   </br>
+#### 4. Create a database
 ```
 ant dbTests
 ```
 
-5. Start Apache Http Server
-   </br>
+#### 5. Start Apache Http Server
 ```
 %TOMCAT%\bin\startup.bat
 ```
 
-6. Visit the following link in the browser
-   </br>
+#### 6. Visit the following link in the browser
 ```
 http://localhost:8080/springapp/
 ```
