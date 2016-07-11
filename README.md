@@ -51,3 +51,5 @@ ant dbTests
 ```
 http://localhost:8080/springapp/
 ```
+### The general process of MVC
+![mvc process](https://raw.githubusercontent.com/panruochen/springapp/master/mvc%20process.png)
